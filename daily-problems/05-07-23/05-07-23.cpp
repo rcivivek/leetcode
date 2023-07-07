@@ -37,28 +37,12 @@
 class Solution {
 public:
     int longestSubarray(vector<int>& nums) {
-         vector<int> res;
-         int sum =0, n= nums.size();
-         for(int i=0;i<n;i++){
-           sum+=nums[i];
-           if(nums[i]==0){
-             res.push_back(sum);
-             res.push_back(0);
-             sum=0;
-           }
-           if(i==n-1){
-             res.push_back(sum);
-           }
-         }
-         int maxi =*max_element(res.begin(), res.end());
-         for(int i=0;i<res.size();i++){
-           int l=0,r=0;
-           if(res[i] ==0) {
-             if(i>0)l=res[i-1];
-             if(i<n-1) r= res[i+1];
-             maxi = max(maxi, l+r);
-           }
-         }
-         return maxi==n? maxi-1: maxi;
+        int sum=0,j=0,maxi=0;
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+            while(sum<i-j && j<i) sum-=nums[j++];
+            maxi = max(maxi, sum);
+        }
+        return maxi==nums.size()? maxi-1: maxi;
     }
 };
